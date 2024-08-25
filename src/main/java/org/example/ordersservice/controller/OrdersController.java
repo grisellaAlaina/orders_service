@@ -20,4 +20,9 @@ public class OrdersController {
     public OrderResponseDto createOrder(@RequestBody OrderDto orderDto) {
         return orderService.createOrder(orderDto);
     }
+
+    @GetMapping("/byID")
+    public OrderResponseDto findByID(@RequestParam("id") int id) {
+        return orderService.getById(id);
+    }
 }

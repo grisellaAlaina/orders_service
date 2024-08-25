@@ -1,8 +1,10 @@
 package org.example.ordersservice.repository;
 
+import org.example.ordersservice.dto.OrderResponseDto;
 import org.example.ordersservice.model.UserOrder;
 import org.example.ordersservice.model.OrderDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -68,5 +70,15 @@ public class OrderRepository {
             detail.setId(keyHolder.getKey().intValue());
         }
         return detail;
+    }
+
+    public OrderResponseDto getById(int id) {
+        String select = "SELECT * FROM user_order u " +
+                "LEFT JOIN order_detail o " +
+                "ON u.id = o.order_id WHERE u.id = ?";
+        return jdbcTemplate.queryForObject(select,
+                new BeanPropertyRowMapper<>(OrderResponseDto.class),
+                id
+        );
     }
 }

@@ -43,6 +43,10 @@ public class OrderService {
         return responseDto;
     }
 
+    public OrderResponseDto getById(int id) {
+        return orderRepository.getById(id);
+    }
+
     private String generateOrderNumber() {
         String orderNumberApiUrl = "http://localhost:8081/numbers";
         return restTemplate.getForObject(orderNumberApiUrl, String.class);
