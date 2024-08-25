@@ -16,8 +16,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-// Вы должны заменить пакет на свой.
-
 @ExtendWith(MockitoExtension.class)
 class OrdersControllerTest {
 

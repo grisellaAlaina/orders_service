@@ -1,7 +1,5 @@
 package org.example.ordersservice.model;
 
-import java.math.BigDecimal;
-
 public class OrderDetail {
     private int id;
     private int productArt;
