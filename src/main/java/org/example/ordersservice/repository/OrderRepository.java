@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public class OrderRepository {
@@ -80,5 +82,26 @@ public class OrderRepository {
                 new BeanPropertyRowMapper<>(OrderResponseDto.class),
                 id
         );
+    }
+
+    public List<OrderResponseDto> getByDateAndTotalSum(LocalDate date, int sum) {
+        String select = "SELECT * FROM user_order u " +
+                "LEFT JOIN order_detail o " +
+                "ON u.id = o.order_id " +
+                "WHERE u.order_date = ? " +
+                "AND u.total_sum = ?";
+        return jdbcTemplate.query(select,
+                new BeanPropertyRowMapper<>(OrderResponseDto.class),
+                date, sum);
+    }
+
+    public List<OrderResponseDto> getByExceptAndPeriod(String except, LocalDate minDate, LocalDate maxDate) {
+        String select = "SELECT * FROM user_order u " +
+                "LEFT JOIN order_detail o " +
+                "ON u.id = o.order_id " +
+                "WHERE o.product_name != ? " +
+                "AND u.order_date > ? AND u.order_date < ?";
+        return jdbcTemplate.query(select, new BeanPropertyRowMapper<>(OrderResponseDto.class),
+                except, minDate, maxDate);
     }
 }

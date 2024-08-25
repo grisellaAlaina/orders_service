@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -45,6 +46,14 @@ public class OrderService {
 
     public OrderResponseDto getById(int id) {
         return orderRepository.getById(id);
+    }
+
+    public List<OrderResponseDto> getByDateAndSum(LocalDate date, int sum) {
+        return orderRepository.getByDateAndTotalSum(date, sum);
+    }
+
+    public List<OrderResponseDto> getByExceptAndPeriod(String except, LocalDate minDate, LocalDate maxDate) {
+        return orderRepository.getByExceptAndPeriod(except, minDate, maxDate);
     }
 
     private String generateOrderNumber() {
