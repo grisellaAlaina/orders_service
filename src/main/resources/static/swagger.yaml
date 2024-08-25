@@ -1,0 +1,144 @@
+openapi: '3.0.0'
+info:
+  title: Order Service API
+  version: '1.0'
+paths:
+  /orders/create:
+    post:
+      summary: Create a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderDto'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponseDto'
+  /orders/byID:
+    get:
+      summary: Retrieve order by ID
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: ID of the order to retrieve
+      responses:
+        '200':
+          description: Order data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponseDto'
+  /orders/byDateAndSum:
+    get:
+      summary: Retrieve orders by date and sum
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          description: Date of the orders to retrieve
+        - in: query
+          name: total
+          schema:
+            type: integer
+          description: Total sum of the orders to retrieve
+      responses:
+        '200':
+          description: List of Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponseDto'
+  /orders/exceptAndPeriod:
+    get:
+      summary: Retrieve Orders by except field and period
+      parameters:
+        - in: query
+          name: except
+          schema:
+            type: string
+          description: Field to exclude from the search
+        - in: query
+          name: minDate
+          schema:
+            type: string
+            format: date
+          description: Minimum date to search
+        - in: query
+          name: maxDate
+          schema:
+            type: string
+            format: date
+          description: Maximum date to search
+      responses:
+        '200':
+          description: List of Orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponseDto'
+components:
+  schemas:
+    OrderDto:
+      type: object
+      properties:
+        order_number:
+          type: string
+        total_sum:
+          type: integer
+        order_date:
+          type: string
+          format: date
+        recipient:
+          type: string
+        delivery_address:
+          type: string
+        payment_type:
+          type: string
+        delivery_type:
+          type: string
+    OrderResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+        order_number:
+          type: string
+        total_sum:
+          type: integer
+        order_date:
+          type: string
+          format: date
+        recipient:
+          type: string
+        delivery_address:
+          type: string
+        payment_type:
+          type: string
+        delivery_type:
+          type: string
+    OrderDetail:
+      type: object
+      properties:
+        product_art:
+          type: integer
+        product_name:
+          type: string
+        quantity:
+          type: integer
+        product_price:
+          type: integer
+        order_id:
+          type: integer
